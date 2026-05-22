@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createTodo, toggleTodo, removeTodo } from '../src/todo.js';
+import { createTodo, toggleTodo, removeTodo, updateTodo } from '../src/todo.js';
 
 describe('createTodo', () => {
   it('returns a new todo with trimmed text', () => {
@@ -58,5 +58,35 @@ describe('removeTodo', () => {
     const result = removeTodo(todos, 'missing');
     expect(result).toEqual(todos);
     expect(result).not.toBe(todos);
+  });
+});
+
+describe('updateTodo', () => {
+  const todos = [
+    { id: '1', text: 'Buy milk', completed: false },
+    { id: '2', text: 'Walk dog', completed: true },
+  ];
+
+  it('updates text with trim', () => {
+    const result = updateTodo(todos, '1', '  Buy oat milk  ');
+    expect(result[0].text).toBe('Buy oat milk');
+    expect(result[1]).toEqual(todos[1]);
+  });
+
+  it('returns unchanged todos for empty or whitespace text', () => {
+    expect(updateTodo(todos, '1', '')).toEqual(todos);
+    expect(updateTodo(todos, '1', '   ')).toEqual(todos);
+  });
+
+  it('returns unchanged todos when id not found', () => {
+    const result = updateTodo(todos, 'missing', 'New text');
+    expect(result).toEqual(todos);
+    expect(result).not.toBe(todos);
+  });
+
+  it('does not mutate input array', () => {
+    const copy = [...todos];
+    updateTodo(todos, '1', 'Changed');
+    expect(todos).toEqual(copy);
   });
 });
