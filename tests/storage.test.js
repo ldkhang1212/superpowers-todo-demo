@@ -33,6 +33,21 @@ describe('storage', () => {
     expect(loadTodos()).toEqual([]);
   });
 
+  it('filters invalid todo entries', () => {
+    store[STORAGE_KEY] = JSON.stringify([
+      { id: '1', text: 'valid', completed: false },
+      null,
+      { id: '2', text: 'no completed flag' },
+      { id: 3, text: 'bad id type', completed: false },
+    ]);
+    expect(loadTodos()).toEqual([{ id: '1', text: 'valid', completed: false }]);
+  });
+
+  it('returns empty array when parsed value is not an array', () => {
+    store[STORAGE_KEY] = JSON.stringify({ todos: [] });
+    expect(loadTodos()).toEqual([]);
+  });
+
   it('warns on quota exceeded but does not throw', () => {
     vi.stubGlobal('localStorage', {
       getItem: () => null,

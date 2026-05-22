@@ -1,11 +1,21 @@
 export const STORAGE_KEY = 'superpowers-todos-v1';
 
+function isValidTodo(todo) {
+  return (
+    todo &&
+    typeof todo.id === 'string' &&
+    typeof todo.text === 'string' &&
+    typeof todo.completed === 'boolean'
+  );
+}
+
 export function loadTodos() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(isValidTodo);
   } catch {
     return [];
   }

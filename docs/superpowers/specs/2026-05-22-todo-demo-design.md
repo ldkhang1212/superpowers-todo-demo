@@ -73,7 +73,7 @@ test_superpowers/
 
 ### `todo.js` (pure, testable)
 
-- `createTodo(text, existingTodos)` → new todo or null if empty
+- `createTodo(text)` → new todo or null if empty
 - `toggleTodo(todos, id)` → updated array
 - `removeTodo(todos, id)` → updated array
 
