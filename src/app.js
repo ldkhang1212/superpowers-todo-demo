@@ -1,10 +1,19 @@
-import { createTodo, toggleTodo, removeTodo, updateTodo } from './todo.js';
+import {
+  createTodo,
+  toggleTodo,
+  removeTodo,
+  updateTodo,
+  filterTodos,
+} from './todo.js';
 import { loadTodos, saveTodos } from './storage.js';
 
 const form = document.getElementById('todo-form');
 const input = document.getElementById('todo-input');
 const list = document.getElementById('todo-list');
 const emptyState = document.getElementById('empty-state');
+const searchInput = document.getElementById('todo-search');
+const searchEmptyState = document.getElementById('search-empty-state');
+let searchQuery = '';
 const editDialog = document.getElementById('edit-dialog');
 const editForm = document.getElementById('edit-form');
 const editInput = document.getElementById('edit-input');
@@ -57,9 +66,10 @@ function saveEdit() {
 }
 
 function render() {
+  const visible = filterTodos(todos, searchQuery);
   list.innerHTML = '';
 
-  todos.forEach((todo) => {
+  visible.forEach((todo) => {
     const li = document.createElement('li');
     li.className = `todo-item${todo.completed ? ' completed' : ''}`;
     li.dataset.id = todo.id;
@@ -106,7 +116,9 @@ function render() {
     list.appendChild(li);
   });
 
+  const hasSearch = searchQuery.trim().length > 0;
   emptyState.hidden = todos.length > 0;
+  searchEmptyState.hidden = !(hasSearch && todos.length > 0 && visible.length === 0);
 }
 
 form.addEventListener('submit', (e) => {
@@ -135,6 +147,11 @@ editDialog.addEventListener('cancel', (e) => {
 editDialog.addEventListener('close', () => {
   editingId = null;
   triggerEditButton = null;
+});
+
+searchInput.addEventListener('input', () => {
+  searchQuery = searchInput.value;
+  render();
 });
 
 render();
