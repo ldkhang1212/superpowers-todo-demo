@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todos — Superpowers Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <h1>Todos</h1>
+        <span class="app-badge">Superpowers demo</span>
+      </header>
+
+      <form id="todo-form" class="todo-form">
+        <label for="todo-input" class="visually-hidden">New todo</label>
+        <input
+          id="todo-input"
+          type="text"
+          placeholder="What needs doing?"
+          autocomplete="off"
+        />
+        <button type="submit" class="btn-add">Add</button>
+      </form>
+
+      <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+
+      <p id="empty-state" class="empty-state" hidden>
+        No todos yet — add one above
+      </p>
+    </main>
+
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
