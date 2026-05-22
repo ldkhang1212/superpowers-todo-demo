@@ -1,16 +1,59 @@
-import { createTodo, toggleTodo, removeTodo } from './todo.js';
+import { createTodo, toggleTodo, removeTodo, updateTodo } from './todo.js';
 import { loadTodos, saveTodos } from './storage.js';
 
 const form = document.getElementById('todo-form');
 const input = document.getElementById('todo-input');
 const list = document.getElementById('todo-list');
 const emptyState = document.getElementById('empty-state');
+const editDialog = document.getElementById('edit-dialog');
+const editForm = document.getElementById('edit-form');
+const editInput = document.getElementById('edit-input');
+const editCancel = document.getElementById('edit-cancel');
 
 let todos = loadTodos();
+let editingId = null;
+let triggerEditButton = null;
 
 function persist() {
   saveTodos(todos);
   render();
+}
+
+function closeEditDialog() {
+  if (!editDialog.open) return;
+  editDialog.close();
+  editingId = null;
+  if (triggerEditButton) {
+    triggerEditButton.focus();
+    triggerEditButton = null;
+  }
+}
+
+function openEditDialog(id, editButton) {
+  const todo = todos.find((t) => t.id === id);
+  if (!todo) return;
+
+  editingId = id;
+  triggerEditButton = editButton;
+  editInput.value = todo.text;
+  editDialog.showModal();
+  editInput.focus();
+  editInput.select();
+}
+
+function saveEdit() {
+  if (!editingId) {
+    closeEditDialog();
+    return;
+  }
+
+  const before = JSON.stringify(todos);
+  todos = updateTodo(todos, editingId, editInput.value);
+  closeEditDialog();
+
+  if (JSON.stringify(todos) !== before) {
+    persist();
+  }
 }
 
 function render() {
@@ -33,6 +76,12 @@ function render() {
     span.className = 'todo-text';
     span.textContent = todo.text;
 
+    const editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'btn-edit';
+    editBtn.textContent = 'Edit';
+    editBtn.setAttribute('aria-label', `Edit ${todo.text}`);
+
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
     deleteBtn.className = 'btn-delete';
@@ -44,12 +93,16 @@ function render() {
       persist();
     });
 
+    editBtn.addEventListener('click', () => {
+      openEditDialog(todo.id, editBtn);
+    });
+
     deleteBtn.addEventListener('click', () => {
       todos = removeTodo(todos, todo.id);
       persist();
     });
 
-    li.append(checkbox, span, deleteBtn);
+    li.append(checkbox, span, editBtn, deleteBtn);
     list.appendChild(li);
   });
 
@@ -63,6 +116,25 @@ form.addEventListener('submit', (e) => {
   todos = [...todos, newTodo];
   input.value = '';
   persist();
+});
+
+editForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  saveEdit();
+});
+
+editCancel.addEventListener('click', () => {
+  closeEditDialog();
+});
+
+editDialog.addEventListener('cancel', (e) => {
+  e.preventDefault();
+  closeEditDialog();
+});
+
+editDialog.addEventListener('close', () => {
+  editingId = null;
+  triggerEditButton = null;
 });
 
 render();
