@@ -25,3 +25,15 @@ export function removeTodo(todos, id) {
   const filtered = todos.filter((todo) => todo.id !== id);
   return filtered.length === todos.length ? [...todos] : filtered;
 }
+
+export function updateTodo(todos, id, newText) {
+  const trimmed = newText.trim();
+  if (!trimmed) return [...todos];
+
+  const index = todos.findIndex((todo) => todo.id === id);
+  if (index === -1) return [...todos];
+
+  return todos.map((todo) =>
+    todo.id === id ? { ...todo, text: trimmed } : todo
+  );
+}
