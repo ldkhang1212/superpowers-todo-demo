@@ -148,6 +148,83 @@ body {
   outline-offset: 2px;
 }
 
+.btn-edit {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.25rem;
+}
+
+.btn-edit:hover {
+  color: var(--text);
+}
+
+.btn-edit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.edit-dialog {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  max-width: 400px;
+  width: calc(100% - 2rem);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.edit-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.edit-dialog h2 {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+}
+
+.edit-dialog input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.edit-dialog input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.edit-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.btn-cancel {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: var(--bg);
+}
+
+.btn-cancel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .empty-state {
   text-align: center;
   color: var(--text-muted);
