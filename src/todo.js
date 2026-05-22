@@ -37,3 +37,10 @@ export function updateTodo(todos, id, newText) {
     todo.id === id ? { ...todo, text: trimmed } : todo
   );
 }
+
+export function filterTodos(todos, query) {
+  const trimmed = query.trim();
+  if (!trimmed) return [...todos];
+  const lower = trimmed.toLowerCase();
+  return todos.filter((todo) => todo.text.toLowerCase().includes(lower));
+}
