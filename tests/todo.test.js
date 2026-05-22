@@ -103,8 +103,9 @@ describe('filterTodos', () => {
     expect(filterTodos(todos, '   ')).toEqual(todos);
   });
 
-  it('matches substring case-insensitively', () => {
-    expect(filterTodos(todos, 'MIL')).toEqual([todos[0]]);
+  it('matches substring case-sensitively', () => {
+    expect(filterTodos(todos, 'milk')).toEqual([todos[0]]);
+    expect(filterTodos(todos, 'MIL')).toEqual([]);
     expect(filterTodos(todos, 'o')).toHaveLength(2);
   });
 

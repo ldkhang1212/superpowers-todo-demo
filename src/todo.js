@@ -41,6 +41,5 @@ export function updateTodo(todos, id, newText) {
 export function filterTodos(todos, query) {
   const trimmed = query.trim();
   if (!trimmed) return [...todos];
-  const lower = trimmed.toLowerCase();
-  return todos.filter((todo) => todo.text.toLowerCase().includes(lower));
+  return todos.filter((todo) => todo.text.includes(trimmed));
 }

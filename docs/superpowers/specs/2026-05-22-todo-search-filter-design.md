@@ -14,7 +14,7 @@ Add a search input below the add form. As the user types, the list shows only to
 | Decision | Choice |
 |----------|--------|
 | Filter type | Text search |
-| Match | Substring, case-insensitive |
+| Match | Substring, case-sensitive |
 | Persist query | No — reset on reload |
 | No matches | Message: “No todos match your search” |
 | Approach | B — `filterTodos` in `todo.js` + Vitest |
@@ -50,7 +50,7 @@ filterTodos(todos, query) → todos[]
 
 - Trim `query`
 - If trimmed empty → return all todos (shallow copy `[...todos]` or filter passthrough)
-- Else return todos where `todo.text.toLowerCase().includes(trimmed.toLowerCase())`
+- Else return todos where `todo.text.includes(trimmed)` (case-sensitive)
 - Do not mutate input array
 
 ### `src/app.js`
