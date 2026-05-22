@@ -37,3 +37,9 @@ export function updateTodo(todos, id, newText) {
     todo.id === id ? { ...todo, text: trimmed } : todo
   );
 }
+
+export function filterTodos(todos, query) {
+  const trimmed = query.trim();
+  if (!trimmed) return [...todos];
+  return todos.filter((todo) => todo.text.includes(trimmed));
+}

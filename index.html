@@ -24,10 +24,24 @@
         <button type="submit" class="btn-add">Add</button>
       </form>
 
+      <label for="todo-search" class="visually-hidden">Search todos</label>
+      <input
+        id="todo-search"
+        class="todo-search"
+        type="search"
+        placeholder="Search todos…"
+        autocomplete="off"
+        aria-label="Search todos"
+      />
+
       <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
 
       <p id="empty-state" class="empty-state" hidden>
         No todos yet — add one above
+      </p>
+
+      <p id="search-empty-state" class="empty-state" hidden>
+        No todos match your search
       </p>
 
       <dialog id="edit-dialog" class="edit-dialog" aria-labelledby="edit-dialog-title">

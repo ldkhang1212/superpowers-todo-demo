@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createTodo, toggleTodo, removeTodo, updateTodo } from '../src/todo.js';
+import { createTodo, toggleTodo, removeTodo, updateTodo, filterTodos } from '../src/todo.js';
 
 describe('createTodo', () => {
   it('returns a new todo with trimmed text', () => {
@@ -87,6 +87,39 @@ describe('updateTodo', () => {
   it('does not mutate input array', () => {
     const copy = [...todos];
     updateTodo(todos, '1', 'Changed');
+    expect(todos).toEqual(copy);
+  });
+});
+
+describe('filterTodos', () => {
+  const todos = [
+    { id: '1', text: 'Buy milk', completed: false },
+    { id: '2', text: 'Walk dog', completed: true },
+    { id: '3', text: 'Read book', completed: false },
+  ];
+
+  it('returns all todos when query is empty or whitespace', () => {
+    expect(filterTodos(todos, '')).toEqual(todos);
+    expect(filterTodos(todos, '   ')).toEqual(todos);
+  });
+
+  it('matches substring case-sensitively', () => {
+    expect(filterTodos(todos, 'milk')).toEqual([todos[0]]);
+    expect(filterTodos(todos, 'MIL')).toEqual([]);
+    expect(filterTodos(todos, 'o')).toHaveLength(2);
+  });
+
+  it('trims query before matching', () => {
+    expect(filterTodos(todos, '  milk  ')).toEqual([todos[0]]);
+  });
+
+  it('returns empty array when nothing matches', () => {
+    expect(filterTodos(todos, 'xyz')).toEqual([]);
+  });
+
+  it('does not mutate input array', () => {
+    const copy = [...todos];
+    filterTodos(todos, 'milk');
     expect(todos).toEqual(copy);
   });
 });
