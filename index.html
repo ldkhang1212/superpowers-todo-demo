@@ -29,6 +29,18 @@
       <p id="empty-state" class="empty-state" hidden>
         No todos yet — add one above
       </p>
+
+      <dialog id="edit-dialog" class="edit-dialog" aria-labelledby="edit-dialog-title">
+        <form id="edit-form" method="dialog">
+          <h2 id="edit-dialog-title">Edit todo</h2>
+          <label for="edit-input" class="visually-hidden">Todo text</label>
+          <input id="edit-input" type="text" autocomplete="off" />
+          <div class="edit-dialog-actions">
+            <button type="button" class="btn-cancel" id="edit-cancel">Cancel</button>
+            <button type="submit" class="btn-add" id="edit-save">Save</button>
+          </div>
+        </form>
+      </dialog>
     </main>
 
     <script type="module" src="src/app.js"></script>
